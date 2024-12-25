@@ -1,0 +1,97 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #444;
+  }
+  form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  input, select, button {
+    display: inline-block;
+    width: calc(25% - 10px);
+    margin: 5px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .controls input, .controls select, .controls button {
+    flex: 1;
+    margin: 5px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  th {
+    background: #007bff;
+    color: #fff;
+  }
+  tr:nth-child(even) {
+    background: #f2f2f2;
+  }
+  tr:hover {
+    background: #f1f1f1;
+  }
+  td img {
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+  td button {
+    padding: 5px 10px;
+    margin: 0 2px;
+    font-size: 12px;
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  td button:nth-child(2) {
+    background-color: #dc3545;
+  }
+  td button:hover {
+    opacity: 0.8;
+  }

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Product Management</h1>
+  <form id="productForm">
+    <input type="text" id="title" placeholder="Product Title" required>
+    <input type="number" id="price" placeholder="Price" required>
+    <input type="text" id="image" placeholder="Image URL">
+    <select id="category">
+      <option value="">Select Category</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Home">Home</option>
+    </select>
+    <button type="submit">Add Product</button>
+  </form>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search by title">
+    <select id="filterCategory">
+      <option value="">Filter by category</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Home">Home</option>
+    </select>
+    <button onclick="sortProducts('asc')">Sort Price: Low to High</button>
+    <button onclick="sortProducts('desc')">Sort Price: High to Low</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Image</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="productList"></tbody>
+  </table>
+
+  <script>
+    let products = JSON.parse(localStorage.getItem('products')) || [];
+
+    function saveProducts() {
+      localStorage.setItem('products', JSON.stringify(products));
+    }
+
+    function renderProducts() {
+      const productList = document.getElementById('productList');
+      productList.innerHTML = '';
+      products.forEach((product, index) => {
+        productList.innerHTML += `
+          <tr>
+            <td>${product.title}</td>
+            <td>$${product.price}</td>
+            <td><img src="${product.image}" alt="${product.title}"></td>
+            <td>${product.category}</td>
+            <td>
+              <button onclick="editProduct(${index})">Edit</button>
+              <button onclick="deleteProduct(${index})">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function addProduct(event) {
+      event.preventDefault();
+      const title = document.getElementById('title').value;
+      const price = parseFloat(document.getElementById('price').value);
+      const image = document.getElementById('image').value;
+      const category = document.getElementById('category').value;
+
+      if (!title || isNaN(price)) {
+        alert('Please provide valid title and price.');
+        return;
+      }
+
+      products.push({ title, price, image, category });
+      saveProducts();
+      renderProducts();
+
+      document.getElementById('productForm').reset();
+    }
+
+    function editProduct(index) {
+      const product = products[index];
+      document.getElementById('title').value = product.title;
+      document.getElementById('price').value = product.price;
+      document.getElementById('image').value = product.image;
+      document.getElementById('category').value = product.category;
+
+      products.splice(index, 1);
+      saveProducts();
+      renderProducts();
+    }
+
+    function deleteProduct(index) {
+      products.splice(index, 1);
+      saveProducts();
+      renderProducts();
+    }
+
+    function sortProducts(order) {
+      products.sort((a, b) => order === 'asc' ? a.price - b.price : b.price - a.price);
+      renderProducts();
+    }
+
+    document.getElementById('search').addEventListener('input', function () {
+      const query = this.value.toLowerCase();
+      const filtered = products.filter(product => product.title.toLowerCase().includes(query));
+      renderFilteredProducts(filtered);
+    });
+
+    document.getElementById('filterCategory').addEventListener('change', function () {
+      const category = this.value;
+      const filtered = category ? products.filter(product => product.category === category) : products;
+      renderFilteredProducts(filtered);
+    });
+
+    function renderFilteredProducts(filteredProducts) {
+      const productList = document.getElementById('productList');
+      productList.innerHTML = '';
+      filteredProducts.forEach((product, index) => {
+        productList.innerHTML += `
+          <tr>
+            <td>${product.title}</td>
+            <td>$${product.price}</td>
+            <td><img src="${product.image}" alt="${product.title}"></td>
+            <td>${product.category}</td>
+            <td>
+              <button onclick="editProduct(${index})">Edit</button>
+              <button onclick="deleteProduct(${index})">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    document.getElementById('productForm').addEventListener('submit', addProduct);
+    renderProducts();
+  </script>
+</body>
+</html>
